@@ -95,64 +95,6 @@ pipeline{
             }
                     
                 }
-            stage('Docker image build') {
-
-            when { expression { params.action == 'create' } }
-
-            steps{
-                script{
-
-                    dockerBuild("${params.ImageName}", "${params.ImageTag}","${params.Dockerhubusername}" )
-
-                }
-
-            }
-                    
-                }
                 
-            stage('Docker image scan: trivy') {
-
-            when { expression { params.action == 'create' } }
-
-            steps{
-                script{
-
-                    dockerImageScan("${params.ImageName}", "${params.ImageTag}","${params.Dockerhubusername}" )
-
-                }
-
-            }
-                    
-                }
-
-            stage('Docker image push: DockerHub') {
-
-            when { expression { params.action == 'create' } }
-
-            steps{
-                script{
-
-                    dockerImagePush("${params.ImageName}", "${params.ImageTag}","${params.Dockerhubusername}" )
-
-                }
-
-            }
-                    
-                }
-
-            stage('Docker local Image clean : DockerHub') {
-
-            when { expression { params.action == 'create' } }
-
-            steps{
-                script{
-
-                    dockerImageCleanUp("${params.ImageName}", "${params.ImageTag}","${params.Dockerhubusername}" )
-
-                }
-
-            }
-                    
-                }
-            } 
-        }
+    }
+}
