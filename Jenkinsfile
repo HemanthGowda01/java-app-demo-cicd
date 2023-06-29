@@ -9,7 +9,7 @@ pipeline{
 
                 script {
 
-                    git branch: 'main', url: 'https://github.com/HemanthGowda01/mrdevops_java_app.git'
+                    git branch: 'main', url: 'https://github.com/HemanthGowda01/java-app-demo-cicd.git'
                     
                 }
             }
