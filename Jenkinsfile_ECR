@@ -6,9 +6,9 @@ pipeline{
     parameters{
 
         choice(name: 'action', choices: 'create\ndelete', description: 'Choose create/Destroy')
-        string (name: 'ImageName', description: "name of docker build", defaultValue: 'javademo')
-        string (name: 'ImageTag', description: "tag for  docker build", defaultValue: 'v1')
-         string (name: 'Dockerhubusername', description: "name of app", defaultValue: 'hemanth24081995')
+        string (name: 'aws_account_id', description: "AWS Account ID", defaultValue: '763674811983')
+        string (name: 'region', description: "Account Region", defaultValue: 'us-east-1')
+         string (name: 'ecr_repoName', description: "ECR Repo Name", defaultValue: 'dozee-dev-build-repo-version-3.16.2')
     }
 
     stages{
@@ -95,6 +95,66 @@ pipeline{
             }
                     
                 }
+
+            stage('docker image build : ECR') {
+
+            when { expression { params.action == 'create' } }
+
+            steps{
+                script{
+
+                     dockerBuild("${params.aws_account_id}", "${params.region}","${params.ecr_repoName}" )
+                }
+
+            }
+                    
+                }
+                stage('Docker image scan: trivy') {
+
+            when { expression { params.action == 'create' } }
+
+            steps{
+                script{
+
+                    dockerImageScan("${params.aws_account_id}", "${params.region}","${params.ecr_repoName}" )
+
+                }
+
+            }
+                    
+                }
+
+            stage('Docker image push: ECR') {
+
+            when { expression { params.action == 'create' } }
+
+            steps{
+                script{
+
+                    dockerImagePush("${params.aws_account_id}", "${params.region}","${params.ecr_repoName}" )
+
+                }
+
+            }
+                    
+                }
+
+            stage('Docker local Image clean : ECR') {
+
+            when { expression { params.action == 'create' } }
+
+            steps{
+                script{
+
+                    dockerImageCleanUp("${params.aws_account_id}", "${params.region}","${params.ecr_repoName}" )
+
+                }
+
+            }
+                    
+                }
+            } 
+        }
                 
     }
 }
