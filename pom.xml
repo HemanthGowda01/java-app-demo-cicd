@@ -58,6 +58,13 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+      <dependency>
+        <groupId>jdk.compiler</groupId>
+        <artifactId>jdk.compiler</artifactId>
+        <version>17</version>
+        <scope>provided</scope>
+</dependency>
+
     </dependencies>
 
     <build>
