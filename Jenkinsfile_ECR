@@ -187,8 +187,8 @@ pipeline{
             when {expression { params.action == 'create' }}
         steps {
         withCredentials([
-            string(credentialsId: 'aws_access_key_id', variable: 'ACCESS_KEY'),
-            string(credentialsId: 'aws_secret_access_key', variable: 'SECRET_KEY')]) {
+            string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'ACCESS_KEY'),
+            string(credentialsId: 'AWS_SECRET_KEY_ID', variable: 'SECRET_KEY')]) {
             sh """
             aws configure set aws_access_key_id $ACCESS_KEY
             aws configure set aws_secret_access_key $SECRET_KEY
